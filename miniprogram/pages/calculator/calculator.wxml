@@ -46,7 +46,7 @@
     </view>
 
     <view class="field">
-      <text class="field-label">美元汇率 (USD/CNY)</text>
+      <text class="field-label">美元汇率 (1USD=?CNY)</text>
       <input class="field-input" type="digit" placeholder="7.20"
         value="{{exchangeRate}}" bindinput="onInputChange" data-field="exchangeRate" />
     </view>

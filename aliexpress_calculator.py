@@ -101,7 +101,7 @@ class AliExpressCalculator:
             ("营销费率 (%):", self.marketing_var),
             ("目标毛利率 (%):", self.margin_var),
             ("单品折扣率 (%):", self.discount_var),
-            ("美元汇率 (USD/CNY):", self.exchange_rate_var),
+            ("美元汇率 (1USD=?CNY):", self.exchange_rate_var),
         ]
 
         for i, (label_text, var) in enumerate(fields):
