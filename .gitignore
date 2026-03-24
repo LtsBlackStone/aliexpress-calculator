@@ -19,3 +19,7 @@ __pycache__/
 # OS
 Thumbs.db
 .DS_Store
+
+# WeChat Mini Program
+miniprogram/node_modules/
+miniprogram/miniprogram_npm/

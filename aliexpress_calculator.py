@@ -14,11 +14,12 @@ DEFAULTS = {
     "marketing": "5",
     "margin": "20",
     "discount": "0",
+    "exchange_rate": "7.20",
 }
 
 WINDOW_TITLE = "速卖通定价计算器"
 WINDOW_WIDTH = 480
-WINDOW_HEIGHT = 620
+WINDOW_HEIGHT = 700
 
 
 class AliExpressCalculator:
@@ -46,6 +47,7 @@ class AliExpressCalculator:
         self.marketing_var = tk.StringVar(value=DEFAULTS["marketing"])
         self.margin_var = tk.StringVar(value=DEFAULTS["margin"])
         self.discount_var = tk.StringVar(value=DEFAULTS["discount"])
+        self.exchange_rate_var = tk.StringVar(value=DEFAULTS["exchange_rate"])
 
         # 构建界面
         self._create_widgets()
@@ -99,6 +101,7 @@ class AliExpressCalculator:
             ("营销费率 (%):", self.marketing_var),
             ("目标毛利率 (%):", self.margin_var),
             ("单品折扣率 (%):", self.discount_var),
+            ("美元汇率 (USD/CNY):", self.exchange_rate_var),
         ]
 
         for i, (label_text, var) in enumerate(fields):
@@ -170,6 +173,14 @@ class AliExpressCalculator:
         )
         self.backend_price_label.grid(row=2, column=1, pady=10, sticky="w")
 
+        ttk.Label(result_frame, text="美元定价:", font=("Microsoft YaHei UI", 11)).grid(
+            row=3, column=0, padx=(0, 10), pady=10, sticky="e"
+        )
+        self.usd_price_label = ttk.Label(
+            result_frame, text="$ 0.00", font=result_font, foreground="#333333"
+        )
+        self.usd_price_label.grid(row=3, column=1, pady=10, sticky="w")
+
         # 错误/提示信息
         self.message_label = ttk.Label(
             main_frame, text="", foreground="#c0392b", font=("Microsoft YaHei UI", 9)
@@ -214,14 +225,21 @@ class AliExpressCalculator:
                 return
             backend_price = price / (1 - discount) if discount > 0 else price
 
-            self._display_result(price, profit, backend_price)
+            # 美元定价
+            exchange_rate = float(self.exchange_rate_var.get() or "0")
+            if exchange_rate <= 0:
+                self._display_error("美元汇率必须大于0")
+                return
+            usd_price = backend_price / exchange_rate
+
+            self._display_result(price, profit, backend_price, usd_price)
 
         except ValueError:
             self._display_error("请输入有效的数字")
         except Exception:
             self._display_error("计算出错，请检查输入")
 
-    def _display_result(self, price, profit, backend_price):
+    def _display_result(self, price, profit, backend_price, usd_price):
         self.price_label.config(
             text=f"¥ {price:.2f}", foreground="#1a5276"
         )
@@ -234,12 +252,17 @@ class AliExpressCalculator:
         self.backend_price_label.config(
             text=f"¥ {backend_price:.2f}", foreground="#1a5276"
         )
+
+        self.usd_price_label.config(
+            text=f"$ {usd_price:.2f}", foreground="#1a5276"
+        )
         self.message_label.config(text="")
 
     def _display_error(self, message):
         self.price_label.config(text="¥ 0.00", foreground="#333333")
         self.profit_label.config(text="¥ 0.00", foreground="#333333")
         self.backend_price_label.config(text="¥ 0.00", foreground="#333333")
+        self.usd_price_label.config(text="$ 0.00", foreground="#333333")
         self.message_label.config(text=message, foreground="#c0392b")
 
     def reset(self):
@@ -249,9 +272,11 @@ class AliExpressCalculator:
         self.marketing_var.set(DEFAULTS["marketing"])
         self.margin_var.set(DEFAULTS["margin"])
         self.discount_var.set(DEFAULTS["discount"])
+        self.exchange_rate_var.set(DEFAULTS["exchange_rate"])
         self.price_label.config(text="¥ 0.00", foreground="#333333")
         self.profit_label.config(text="¥ 0.00", foreground="#333333")
         self.backend_price_label.config(text="¥ 0.00", foreground="#333333")
+        self.usd_price_label.config(text="$ 0.00", foreground="#333333")
         self.message_label.config(text="")
 
 

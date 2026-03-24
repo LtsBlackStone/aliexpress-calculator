@@ -1,0 +1,13 @@
+{
+  "pages": [
+    "pages/calculator/calculator"
+  ],
+  "window": {
+    "navigationBarTitleText": "速卖通定价计算器",
+    "navigationBarBackgroundColor": "#c0392b",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f5f5"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
