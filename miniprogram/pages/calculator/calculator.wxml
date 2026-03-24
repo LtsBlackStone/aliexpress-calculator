@@ -1,0 +1,90 @@
+<view class="container">
+  <!-- 顶部品牌标识 -->
+  <view class="brand">
+    <text class="brand-title">天民电商出品</text>
+    <text class="brand-subtitle">速卖通星球号：97679310</text>
+  </view>
+
+  <!-- 输入参数区域 -->
+  <view class="section">
+    <view class="section-title">输入参数</view>
+
+    <view class="field">
+      <text class="field-label">产品成本 (元)</text>
+      <input class="field-input" type="digit" placeholder="请输入产品成本"
+        value="{{cost}}" bindinput="onInputChange" data-field="cost" />
+    </view>
+
+    <view class="field">
+      <text class="field-label">国际运费 (元)</text>
+      <input class="field-input" type="digit" placeholder="请输入国际运费"
+        value="{{shipping}}" bindinput="onInputChange" data-field="shipping" />
+    </view>
+
+    <view class="field">
+      <text class="field-label">平台佣金率 (%)</text>
+      <input class="field-input" type="digit" placeholder="10"
+        value="{{commission}}" bindinput="onInputChange" data-field="commission" />
+    </view>
+
+    <view class="field">
+      <text class="field-label">营销费率 (%)</text>
+      <input class="field-input" type="digit" placeholder="5"
+        value="{{marketing}}" bindinput="onInputChange" data-field="marketing" />
+    </view>
+
+    <view class="field">
+      <text class="field-label">目标毛利率 (%)</text>
+      <input class="field-input" type="digit" placeholder="20"
+        value="{{margin}}" bindinput="onInputChange" data-field="margin" />
+    </view>
+
+    <view class="field">
+      <text class="field-label">单品折扣率 (%)</text>
+      <input class="field-input" type="digit" placeholder="0"
+        value="{{discount}}" bindinput="onInputChange" data-field="discount" />
+    </view>
+
+    <view class="field">
+      <text class="field-label">美元汇率 (1USD=?CNY)</text>
+      <input class="field-input" type="digit" placeholder="7.20"
+        value="{{exchangeRate}}" bindinput="onInputChange" data-field="exchangeRate" />
+    </view>
+  </view>
+
+  <!-- 按钮区域 -->
+  <view class="btn-group">
+    <button class="btn btn-primary" bindtap="calculate">开始计算</button>
+    <button class="btn btn-default" bindtap="reset">重置</button>
+  </view>
+
+  <!-- 计算结果区域 -->
+  <view class="section">
+    <view class="section-title">计算结果</view>
+
+    <view class="result-row">
+      <text class="result-label">建议零售价:</text>
+      <text class="result-value {{priceColor}}">¥ {{price}}</text>
+    </view>
+
+    <view class="result-row">
+      <text class="result-label">预估利润:</text>
+      <text class="result-value {{profitColor}}">¥ {{profit}}</text>
+    </view>
+
+    <view class="result-row">
+      <text class="result-label">后台定价:</text>
+      <text class="result-value {{backendPriceColor}}">¥ {{backendPrice}}</text>
+    </view>
+
+    <view class="result-row">
+      <text class="result-label">美元定价:</text>
+      <text class="result-value {{usdPriceColor}}">$ {{usdPrice}}</text>
+    </view>
+  </view>
+
+  <!-- 错误信息 -->
+  <view class="error-msg" wx:if="{{errorMsg}}">
+    <text>{{errorMsg}}</text>
+  </view>
+</view>
